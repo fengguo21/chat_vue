@@ -1,12 +1,31 @@
 <template>
-  <div class="chat-input">
-    <input v-model="input" @keyup.enter="send" placeholder="请输入内容..." />
-    <button @click="send">发送</button>
-    <button class="upload-btn" @click="onUploadClick">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M16.5 13.5L7.5 4.5M7.5 4.5V9.5M7.5 4.5H12.5" stroke="#bcbec4" stroke-width="2"/>
-      </svg>
-    </button>
+  <div class="chat-input-bar">
+    <textarea
+      v-model="input"
+      class="chat-input-textarea"
+      placeholder="Message DeepSeek"
+      rows="1"
+    />
+    <div class="chat-input-actions">
+      <div class="chat-input-left">
+        <button class="action-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#bcbec4" stroke-width="2"/><circle cx="10" cy="10" r="4" stroke="#bcbec4" stroke-width="2"/></svg>
+          DeepThink (R1)
+        </button>
+        <button class="action-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#bcbec4" stroke-width="2"/><path d="M6 10h8" stroke="#bcbec4" stroke-width="2"/></svg>
+          Search
+        </button>
+      </div>
+      <div class="chat-input-right">
+        <button class="icon-btn" @click="onUploadClick">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M16.5 13.5L7.5 4.5M7.5 4.5V9.5M7.5 4.5H12.5" stroke="#bcbec4" stroke-width="2"/></svg>
+        </button>
+        <button class="icon-btn" @click="send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 20L20 12L4 4V10L16 12L4 14V20Z" fill="#bcbec4"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -48,48 +67,75 @@ async function onUploadClick() {
 </script>
 
 <style scoped>
-.chat-input {
-  display: flex;
-  padding: 16px;
-  border-top: 1px solid #eee;
-  background: #fafbfc;
+.chat-input-bar {
+  background: #36363a;
+  border-radius: 24px;
+  padding: 20px 24px 56px 24px;
+  margin: 24px;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
 }
-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-right: 12px;
-}
-button {
-  padding: 8px 20px;
-  background: #1677ff;
-  color: #fff;
+.chat-input-textarea {
+  background: transparent;
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  color: #e0e0e0;
+  font-size: 18px;
+  width: 100%;
+  resize: none;
+  outline: none;
+  margin-bottom: 12px;
 }
-button:hover {
-  background: #409eff;
-}
-.upload-btn {
+.chat-input-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   position: absolute;
-  right: 16px;
+  left: 24px;
+  right: 24px;
   bottom: 16px;
+}
+.chat-input-left {
+  display: flex;
+  gap: 12px;
+}
+.action-btn {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #4a4a4f;
+  color: #e0e0e0;
+  border-radius: 18px;
+  padding: 6px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  gap: 6px;
+  transition: background 0.2s, border 0.2s;
+}
+.action-btn:hover {
+  background: #44444a;
+  border-color: #6a6a6f;
+}
+.chat-input-right {
+  display: flex;
+  gap: 10px;
+}
+.icon-btn {
   width: 40px;
   height: 40px;
-  background: #393a40;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #4a4a4f;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  color: #bcbec4;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  color: #fff;
+  transition: background 0.2s, border 0.2s;
 }
-.upload-btn:hover {
-  background: #50515a;
+.icon-btn:hover {
+  background: #44444a;
+  border-color: #6a6a6f;
 }
 </style> 

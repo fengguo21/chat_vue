@@ -22,7 +22,28 @@ const router = createRouter({
       name: 'chat',
       component: () => import('../views/Chat.vue'),
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/Login.vue'),
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/Register.vue'),
+    },
   ],
+})
+
+// 路由守卫：未登录自动跳转到 /login
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register']
+  const authRequired = !publicPages.includes(to.path)
+  const token = localStorage.getItem('jwt')
+  if (authRequired && !token) {
+    return next('/login')
+  }
+  next()
 })
 
 export default router

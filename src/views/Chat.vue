@@ -9,22 +9,29 @@
 import { ref } from 'vue'
 import ChatSidebar from '@/components/ChatSidebar.vue'
 import ChatWindow from '@/components/ChatWindow.vue'
+import { get, post } from '@/api/request'
 
 const messages = ref([])
+const currentSessionId = ref(null)
 
-function handleSelectChat(chatId) {
-  // 这里可以根据 chatId 加载历史记录
+async function handleSelectChat(sessionId) {
+  currentSessionId.value = sessionId
+  // 拉取聊天记录
+  try {
+    const res = await get(`http://0.0.0.0:8000/history?session_id=${sessionId}`)
+    const data = await res.json()
+    // 假设 data.history 是 [{role, content, ...}]
+    messages.value = data.history || []
+  } catch (e) {
+    messages.value = []
+  }
 }
 
 async function handleSend(text) {
-  messages.value.push({ role: 'user', content: text })
-  const res = await fetch('http://0.0.0.0:8000/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: text })
-  })
+  messages.value.push({ role: 'user', content: text, session_id: currentSessionId.value })
+  const res = await post('http://0.0.0.0:8000/chat', { message: text, session_id: currentSessionId.value })
   const data = await res.json()
-  messages.value.push({ role: 'assistant', content: data.response })
+  messages.value.push({ role: 'assistant', content: data.response, session_id: data.session_id })
 }
 </script>
 
