@@ -36,7 +36,7 @@ const sessions = ref([])
 let chatId = 1
 async function fetchSessions() {
   try {
-    const res = await get('http://0.0.0.0:8000/sessions')
+    const res = await get('/sessions')
     const data = await res.json()
     sessions.value = data.sessions
     // 过滤掉无效 session_id

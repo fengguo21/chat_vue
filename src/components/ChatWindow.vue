@@ -25,8 +25,8 @@ import ChatInput from './ChatInput.vue'
 import { marked } from 'marked'
 const props = defineProps({ messages: Array })
 const emit = defineEmits(['send'])
-function onSend(text) {
-  emit('send', text)
+function onSend(text,uploadedfile) {
+  emit('send', text,uploadedfile)
 }
 </script>
 

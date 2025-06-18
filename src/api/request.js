@@ -14,6 +14,12 @@ export async function apiRequest(url, { method = 'GET', data, headers = {}, ...r
   if (data) {
     body = allHeaders['Content-Type'] === 'application/json' ? JSON.stringify(data) : data
   }
+  // 如果data是FormData，则不进行JSON.stringify
+  if (data instanceof FormData) {
+    // 去掉Content-Type
+    delete allHeaders['Content-Type']
+    body = data
+  }
   // 拼接 baseURL
   const fullUrl = url.startsWith('http') ? url : baseURL + url
   console.log(fullUrl,'usl===')
